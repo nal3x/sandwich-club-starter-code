@@ -2,8 +2,12 @@ package com.udacity.sandwichclub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.BinderThread;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,14 +32,16 @@ public class DetailActivity extends AppCompatActivity {
     @BindView (R.id.description_tv) TextView descriptionTv;
     @BindView (R.id.ingredients_tv) TextView ingredientsTv;
     @BindView (R.id.also_known_tv) TextView alsoKnownTv;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView (R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -53,6 +59,15 @@ public class DetailActivity extends AppCompatActivity {
         Sandwich sandwich = null;
         try {
             sandwich = JsonUtils.parseSandwichJson(json);
+
+            Log.d(DetailActivity.class.getSimpleName(),
+                    "\n name" + sandwich.getMainName() +
+            "\n Origin: " + sandwich.getPlaceOfOrigin() +
+            "\n Description " + sandwich.getDescription() +
+            "\n Also Known As: " + sandwich.getAlsoKnownAs().toString() +
+            "\n Ingredients: " + sandwich.getIngredients().toString());
+
+
         } catch (JSONException e) {
             e.printStackTrace();
             closeOnError();
@@ -60,12 +75,16 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         populateUI(sandwich);
-        Picasso.with(this)
-                .load(sandwich.getImage())
-                .into(ingredientsIv);
 
-        setTitle(sandwich.getMainName());
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
 
     private void closeOnError() {
         finish();
@@ -73,13 +92,31 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
+        Picasso.with(this).load(sandwich.getImage()).into(ingredientsIv);
+        collapsingToolbar.setTitle(sandwich.getMainName());
         originTv.setText(sandwich.getPlaceOfOrigin());
         descriptionTv.setText(sandwich.getDescription());
+
+
+        /*Constructing a String for ingredients, removing the last comma and ...*/
+        String ingredients = "";
         for (String ingredient : sandwich.getIngredients()) {
-            ingredientsTv.setText(ingredient + "\n\n\n");
+            ingredients += ingredient + ", ";
         }
-        for (String alsoKnownAs : sandwich.getAlsoKnownAs()) {
-            alsoKnownTv.setText(alsoKnownAs + "\n\n\n");
+        ingredients = ingredients.replaceAll(", $", "");
+        ingredientsTv.setText(ingredients);
+
+        String alsoKnownAs = "";
+        for (String alternativeName : sandwich.getAlsoKnownAs()) {
+            alsoKnownAs += alternativeName + ", ";
         }
+        alsoKnownAs = alsoKnownAs.replaceAll(", $", "");
+
+        if (alsoKnownAs.isEmpty())
+            alsoKnownTv.setVisibility(View.GONE);
+
+        else
+            alsoKnownTv.setText(alsoKnownAs);
+
     }
 }
