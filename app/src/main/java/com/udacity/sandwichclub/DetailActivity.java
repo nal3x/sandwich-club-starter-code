@@ -2,8 +2,10 @@ package com.udacity.sandwichclub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.BinderThread;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,14 +30,16 @@ public class DetailActivity extends AppCompatActivity {
     @BindView (R.id.description_tv) TextView descriptionTv;
     @BindView (R.id.ingredients_tv) TextView ingredientsTv;
     @BindView (R.id.also_known_tv) TextView alsoKnownTv;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView (R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
-
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -58,13 +62,13 @@ public class DetailActivity extends AppCompatActivity {
             closeOnError();
             return;
         }
-
         populateUI(sandwich);
-        Picasso.with(this)
-                .load(sandwich.getImage())
-                .into(ingredientsIv);
+    }
 
-        setTitle(sandwich.getMainName());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private void closeOnError() {
@@ -73,13 +77,24 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
+        Picasso.with(this).load(sandwich.getImage()).into(ingredientsIv);
+        collapsingToolbar.setTitle(sandwich.getMainName());
         originTv.setText(sandwich.getPlaceOfOrigin());
         descriptionTv.setText(sandwich.getDescription());
+
+        /*Constructing a String for ingredients separated by new line*/
+        String ingredients = "";
         for (String ingredient : sandwich.getIngredients()) {
-            ingredientsTv.setText(ingredient + "\n\n\n");
+            ingredients += ingredient + "\n";
         }
-        for (String alsoKnownAs : sandwich.getAlsoKnownAs()) {
-            alsoKnownTv.setText(alsoKnownAs + "\n\n\n");
+        ingredientsTv.setText(ingredients);
+
+        /*String for alternative sandwich names, separated by commas*/
+        String alsoKnownAs = "";
+        for (String alternativeName : sandwich.getAlsoKnownAs()) {
+            alsoKnownAs += alternativeName + ", ";
         }
+        alsoKnownAs = alsoKnownAs.replaceAll(", $", "");
+        alsoKnownTv.setText(alsoKnownAs);
     }
 }
