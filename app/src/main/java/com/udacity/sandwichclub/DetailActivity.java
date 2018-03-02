@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,32 +57,19 @@ public class DetailActivity extends AppCompatActivity {
         Sandwich sandwich = null;
         try {
             sandwich = JsonUtils.parseSandwichJson(json);
-
-            Log.d(DetailActivity.class.getSimpleName(),
-                    "\n name" + sandwich.getMainName() +
-            "\n Origin: " + sandwich.getPlaceOfOrigin() +
-            "\n Description " + sandwich.getDescription() +
-            "\n Also Known As: " + sandwich.getAlsoKnownAs().toString() +
-            "\n Ingredients: " + sandwich.getIngredients().toString());
-
-
         } catch (JSONException e) {
             e.printStackTrace();
             closeOnError();
             return;
         }
-
         populateUI(sandwich);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
     private void closeOnError() {
         finish();
@@ -97,26 +82,19 @@ public class DetailActivity extends AppCompatActivity {
         originTv.setText(sandwich.getPlaceOfOrigin());
         descriptionTv.setText(sandwich.getDescription());
 
-
-        /*Constructing a String for ingredients, removing the last comma and ...*/
+        /*Constructing a String for ingredients separated by new line*/
         String ingredients = "";
         for (String ingredient : sandwich.getIngredients()) {
-            ingredients += ingredient + ", ";
+            ingredients += ingredient + "\n";
         }
-        ingredients = ingredients.replaceAll(", $", "");
         ingredientsTv.setText(ingredients);
 
+        /*String for alternative sandwich names, separated by commas*/
         String alsoKnownAs = "";
         for (String alternativeName : sandwich.getAlsoKnownAs()) {
             alsoKnownAs += alternativeName + ", ";
         }
         alsoKnownAs = alsoKnownAs.replaceAll(", $", "");
-
-        if (alsoKnownAs.isEmpty())
-            alsoKnownTv.setVisibility(View.GONE);
-
-        else
-            alsoKnownTv.setText(alsoKnownAs);
-
+        alsoKnownTv.setText(alsoKnownAs);
     }
 }
