@@ -4,8 +4,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    app:statusBarBackground="@android:color/transparent">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -22,7 +21,8 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:minHeight="20dp">
 
             <ImageView
                 android:id="@+id/image_iv"
@@ -36,8 +36,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin" />
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -46,7 +48,9 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fitsSystemWindows="true"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,7 +71,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/detail_place_of_origin_label"
                         android:textStyle="bold"
@@ -75,7 +79,7 @@
 
                     <TextView
                         android:id="@+id/origin_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"/>
 
@@ -96,7 +100,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/detail_description_label"
                         android:textStyle="bold"
@@ -104,7 +108,7 @@
 
                     <TextView
                         android:id="@+id/description_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"/>
 
@@ -125,7 +129,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/detail_also_known_as_label"
                         android:textStyle="bold"
@@ -133,7 +137,7 @@
 
                     <TextView
                         android:id="@+id/also_known_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"/>
 
@@ -154,7 +158,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/detail_ingredients_label"
                         android:textStyle="bold"
@@ -162,7 +166,7 @@
 
                     <TextView
                         android:id="@+id/ingredients_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"/>
 
@@ -173,5 +177,7 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

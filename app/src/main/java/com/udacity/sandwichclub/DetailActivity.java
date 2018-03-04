@@ -78,23 +78,27 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
         Picasso.with(this).load(sandwich.getImage()).into(ingredientsIv);
+
         collapsingToolbar.setTitle(sandwich.getMainName());
         originTv.setText(sandwich.getPlaceOfOrigin());
         descriptionTv.setText(sandwich.getDescription());
 
         /*Constructing a String for ingredients separated by new line*/
-        String ingredients = "";
+        StringBuilder ingredients = new StringBuilder();
         for (String ingredient : sandwich.getIngredients()) {
-            ingredients += ingredient + "\n";
+            ingredients.append(ingredient).append("\n");
         }
-        ingredientsTv.setText(ingredients);
+        ingredients.deleteCharAt(ingredients.length() - 1);
+        ingredientsTv.setText(ingredients.toString());
 
-        /*String for alternative sandwich names, separated by commas*/
-        String alsoKnownAs = "";
+        /*Using StringBuilder for alternative sandwich names separated by commas*/
+        StringBuilder alsoKnownAs = new StringBuilder();
         for (String alternativeName : sandwich.getAlsoKnownAs()) {
-            alsoKnownAs += alternativeName + ", ";
+            alsoKnownAs.append(alternativeName).append(", ");
         }
-        alsoKnownAs = alsoKnownAs.replaceAll(", $", "");
-        alsoKnownTv.setText(alsoKnownAs);
+        if (alsoKnownAs.length() > 0) { //remove last comma & space if present
+            alsoKnownAs.delete(alsoKnownAs.length() - 2, alsoKnownAs.length());
+        }
+        alsoKnownTv.setText(alsoKnownAs.toString());
     }
 }

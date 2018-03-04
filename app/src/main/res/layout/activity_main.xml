@@ -6,6 +6,15 @@
     android:fitsSystemWindows="true"
     tools:context="com.udacity.sandwichclub.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        />
+
     <ListView
         android:id="@+id/sandwiches_listview"
         android:layout_width="match_parent"
