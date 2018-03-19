@@ -11,14 +11,14 @@ import java.util.List;
 
 public class JsonUtils {
 
-    public static final String KEY_NAME = "name";
-    public static final String KEY_MAIN_NAME = "mainName";
-    public static final String KEY_ALSO_KNOWN_AS = "alsoKnownAs";
-    public static final String KEY_PLACE_OF_ORIGIN = "placeOfOrigin";
-    public static final String KEY_DESCRIPTION = "description";
-    public static final String KEY_IMAGE = "image";
-    public static final String KEY_INGREDIENTS = "ingredients";
-    public static final String KEY_NO_JSON_VALUE_FOUND = "VALUE NOT FOUND";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_MAIN_NAME = "mainName";
+    private static final String KEY_ALSO_KNOWN_AS = "alsoKnownAs";
+    private static final String KEY_PLACE_OF_ORIGIN = "placeOfOrigin";
+    private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_IMAGE = "image";
+    private static final String KEY_INGREDIENTS = "ingredients";
+    private static final String KEY_NO_JSON_VALUE_FOUND = "VALUE NOT FOUND";
 
 
     public static Sandwich parseSandwichJson(String json) throws JSONException {

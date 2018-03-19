@@ -54,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         String json = sandwiches[position];
-        Sandwich sandwich = null;
+        Sandwich sandwich;
         try {
             sandwich = JsonUtils.parseSandwichJson(json);
         } catch (JSONException e) {
@@ -78,11 +78,9 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
         Picasso.with(this).load(sandwich.getImage()).into(ingredientsIv);
-
         collapsingToolbar.setTitle(sandwich.getMainName());
         originTv.setText(sandwich.getPlaceOfOrigin());
         descriptionTv.setText(sandwich.getDescription());
-
         /*Constructing a String for ingredients separated by new line*/
         StringBuilder ingredients = new StringBuilder();
         for (String ingredient : sandwich.getIngredients()) {
